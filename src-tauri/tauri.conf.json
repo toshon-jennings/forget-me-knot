@@ -2,7 +2,7 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "ToolBox",
   "version": "0.1.0",
-  "identifier": "com.toolbox.app",
+  "identifier": "com.toolbox.desktop",
   "build": {
     "frontendDist": "../dist/gui",
     "beforeDevCommand": "npm run build",
