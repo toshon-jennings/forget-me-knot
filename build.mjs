@@ -19,5 +19,6 @@ await build({
 // Copy static files
 copyFileSync("src/gui/index.html", "dist/gui/index.html");
 copyFileSync("src/gui/styles.css", "dist/gui/styles.css");
+copyFileSync("assets/logo-transparent.png", "dist/gui/logo.png");
 
 console.log("Build complete.");
