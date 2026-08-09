@@ -57,6 +57,10 @@ impl Default for ToolBox {
                     id: "productivity".into(),
                     label: "Productivity".into(),
                 },
+                Category {
+                    id: "learning".into(),
+                    label: "Learning".into(),
+                },
             ],
         }
     }
@@ -79,7 +83,15 @@ pub fn load_toolbox() -> ToolBox {
     ensure_dirs();
     let file = data_dir().join("toolbox.json");
     if let Ok(data) = fs::read_to_string(&file) {
-        if let Ok(tb) = serde_json::from_str(&data) {
+        if let Ok(mut tb) = serde_json::from_str::<ToolBox>(&data) {
+            let has_learning = tb.categories.iter().any(|c| c.id == "learning");
+            if !has_learning {
+                tb.categories.push(Category {
+                    id: "learning".into(),
+                    label: "Learning".into(),
+                });
+                save_toolbox(&tb);
+            }
             return tb;
         }
     }

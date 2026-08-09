@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Forget-Me-Knot ToolBox",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "identifier": "com.toolbox.desktop",
   "build": {
     "frontendDist": "../dist/gui",

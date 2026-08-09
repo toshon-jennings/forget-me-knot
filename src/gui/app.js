@@ -31,16 +31,11 @@ function renderSidebar() {
     btn.className = "cat-btn";
     btn.dataset.cat = cat.id;
     btn.innerHTML = `${cat.label} <span class="count">${count}</span>`;
-    if (activeCategory === cat.id) btn.classList.add("active");
-    btn.addEventListener("click", () => {
-      activeCategory = cat.id;
-      render();
-    });
     list.appendChild(btn);
   }
 
   document.querySelectorAll(".cat-btn").forEach((btn) => {
-    btn.classList.toggle("active", btn.dataset.cat === activeCategory);
+    btn.classList.toggle("active", (btn.dataset.cat ?? "") === activeCategory);
   });
 }
 
@@ -153,6 +148,14 @@ function closeModal() {
   document.getElementById("service-form").reset();
   editingServiceId = null;
 }
+
+document.querySelector(".sidebar").addEventListener("click", (e) => {
+  const btn = e.target.closest(".cat-btn");
+  if (btn) {
+    activeCategory = btn.dataset.cat ?? "";
+    render();
+  }
+});
 
 document.getElementById("add-btn").addEventListener("click", openModal);
 document.getElementById("modal-cancel").addEventListener("click", closeModal);
