@@ -16,6 +16,7 @@ Stop losing track of your subscriptions and web tools. FMK ToolBox is a lightwei
 
 - Node.js (v20+)
 - npm
+- Rust & Cargo (`rustup`)
 
 ### Installation
 
@@ -28,29 +29,24 @@ Stop losing track of your subscriptions and web tools. FMK ToolBox is a lightwei
    ```bash
    npm install
    ```
-3. Start the application:
-   ```bash
-   npm start
-   ```
 
 ### Run on Startup
 
-To launch ToolBox automatically when you log into your Mac, you need to package it as a standalone application. ToolBox is programmed to automatically register itself as a startup item when run as a packaged app.
+ToolBox uses a Tauri plugin to automatically start itself when you log in. Once you package the app and drag it to `/Applications`, it will seamlessly launch on startup.
 
-Build the `.app` bundle:
+Alternatively, you can manually register it from the terminal via:
 ```bash
-npx electron-builder --mac
+osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/ToolBox.app", hidden:false}'
 ```
-Once the build completes, drag `release/mac-arm64/ToolBox.app` into your `Applications` folder and launch it once. It will start automatically on future logins.
 
 ### Development
 
-Run the app in development mode (which watches for changes):
+Run the app in development mode (which watches for changes in both Rust and JS):
 ```bash
-npm run dev
+npm run tauri dev
 ```
 
-Build the static assets:
+Build the `.app` and `.dmg` bundle for distribution:
 ```bash
-npm run build
+npm run tauri build
 ```

@@ -1,10 +1,12 @@
+import { invoke } from '@tauri-apps/api/core';
+
 let data = { services: [], categories: [] };
 let activeCategory = "";
 let searchQuery = "";
 let editingServiceId = null;
 
 async function refresh() {
-  data = await window.toolbox.getData();
+  data = await invoke('get_data');
   render();
 }
 
@@ -115,7 +117,7 @@ function renderGrid() {
 
     card.addEventListener("click", async () => {
       if (s.status === "archived") return;
-      await window.toolbox.openService(s.id);
+      await invoke('open_service', { id: s.id });
     });
 
     grid.appendChild(card);

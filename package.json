@@ -3,34 +3,25 @@
   "version": "0.1.0",
   "description": "ToolBox — your personal service dashboard",
   "type": "module",
-  "main": "dist/main.js",
   "scripts": {
     "build": "node build.mjs",
-    "dev": "node build.mjs --dev && electron .",
-    "start": "electron .",
+    "dev": "tauri dev",
+    "tauri:build": "tauri build",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "menubar": "^9.4.0"
-  },
   "devDependencies": {
+    "@tauri-apps/cli": "^2.11.4",
     "@types/node": "^22.10.0",
-    "electron": "^34.0.0",
     "esbuild": "^0.28.0",
     "typescript": "^5.7.0"
   },
-  "build": {
-    "appId": "com.toolbox.app",
-    "productName": "ToolBox",
-    "directories": {
-      "output": "release"
-    },
-    "mac": {
-      "category": "public.app-category.productivity"
-    }
-  },
+
   "allowScripts": {
     "electron": true,
     "esbuild": true
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/plugin-autostart": "^2.5.1"
   }
 }

@@ -1,34 +1,9 @@
 import { build } from "esbuild";
 import { copyFileSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
 
 const dev = process.argv.includes("--dev");
 
-mkdirSync("dist", { recursive: true });
-
-// Main process — ESM, external electron
-await build({
-  entryPoints: ["src/main.ts"],
-  bundle: true,
-  outfile: "dist/main.js",
-  platform: "node",
-  format: "esm",
-  target: "node20",
-  external: ["electron"],
-  sourcemap: dev,
-});
-
-// Preload — needs to be CJS for Electron sandbox
-await build({
-  entryPoints: ["src/preload.ts"],
-  bundle: true,
-  outfile: "dist/preload.js",
-  platform: "node",
-  format: "cjs",
-  target: "node20",
-  external: ["electron"],
-  sourcemap: dev,
-});
+mkdirSync("dist/gui", { recursive: true });
 
 // GUI — bundle app.js for browser
 await build({
