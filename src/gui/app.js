@@ -170,8 +170,8 @@ document.getElementById("service-form").addEventListener("submit", async (event)
 
   try {
     data = editingServiceId
-      ? await window.toolbox.editService(editingServiceId, payload)
-      : await window.toolbox.addService(payload);
+      ? await invoke('edit_service', { id: editingServiceId, payload })
+      : await invoke('add_service', { payload });
     closeModal();
     render();
   } finally {
