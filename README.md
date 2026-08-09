@@ -1,6 +1,6 @@
-# ToolBox
+# Forget-Me-Knot ToolBox
 
-Stop losing track of your subscriptions and web tools. ToolBox is a lightweight, local-first menu bar app for macOS that gives you a single, visual dashboard of your entire active toolkit.
+Stop losing track of your subscriptions and web tools. FMK ToolBox is a lightweight, local-first menu bar app for macOS that gives you a single, visual dashboard of your entire manually added active toolkit.
 
 ## Features
 
