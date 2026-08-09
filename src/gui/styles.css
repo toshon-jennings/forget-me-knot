@@ -96,24 +96,32 @@ button.primary:hover { opacity: 0.85; }
   flex-direction: column;
 }
 
-.brand-header {
+.logo-container {
+  padding: 10px;
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 8px;
-  padding-right: 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
 }
 
-.brand-logo {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
+.app-logo-wrapper {
+  width: 116px;
+  height: 116px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg);
 }
 
-.brand-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
-  white-space: nowrap;
+.app-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.75);
 }
 
 .cat-btn {
