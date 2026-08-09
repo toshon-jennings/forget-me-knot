@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ToolBox</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <input type="text" id="search" placeholder="Search..." />
+      <button id="add-btn" class="primary">+ Add</button>
+    </header>
+
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="app-logo-wrapper">
+          <img src="../../assets/logo.jpeg" alt="ToolBox Logo" class="app-logo" />
+        </div>
+      </div>
+      <button class="cat-btn active" data-cat="">All <span class="count" id="count-all">0</span></button>
+      <div id="category-list"></div>
+      <button class="cat-btn" data-cat="archived">Archived <span class="count" id="count-archived">0</span></button>
+    </aside>
+
+    <main>
+      <div id="grid" class="grid"></div>
+      <div id="empty" class="empty" style="display:none">
+        <h2>No services yet</h2>
+        <p>Click "+ Add" to save your first tool.</p>
+      </div>
+    </main>
+  </div>
+
+  <div id="modal" class="modal" style="display:none">
+    <form id="service-form" class="modal-content">
+      <h2 id="modal-title">Add Service</h2>
+      <label>URL<input type="url" id="input-url" placeholder="https://example.com" required /></label>
+      <label>Name<input type="text" id="input-name" placeholder="Auto-detected" /></label>
+      <label>Category
+        <select id="input-category"></select>
+      </label>
+      <label>Notes<textarea id="input-notes" placeholder="Optional"></textarea></label>
+      <div class="modal-actions">
+        <button type="button" id="modal-cancel">Cancel</button>
+        <button type="submit" id="modal-save" class="primary">Save</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

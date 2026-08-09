@@ -1,0 +1,36 @@
+{
+  "name": "toolbox",
+  "version": "0.1.0",
+  "description": "ToolBox — your personal service dashboard",
+  "type": "module",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --dev && electron .",
+    "start": "electron .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "menubar": "^9.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "electron": "^34.0.0",
+    "esbuild": "^0.28.0",
+    "typescript": "^5.7.0"
+  },
+  "build": {
+    "appId": "com.toolbox.app",
+    "productName": "ToolBox",
+    "directories": {
+      "output": "release"
+    },
+    "mac": {
+      "category": "public.app-category.productivity"
+    }
+  },
+  "allowScripts": {
+    "electron": true,
+    "esbuild": true
+  }
+}
