@@ -6,7 +6,7 @@ Stop losing track of your subscriptions and web tools. FMK ToolBox is a lightwei
 
 - **Menu Bar Access**: Quickly view your dashboard from anywhere on your Mac.
 - **Local-First Storage**: Your data never leaves your machine. No passwords or credentials are stored.
-- **Favicon Auto-Fetching**: Simply add a URL and ToolBox grabs the site's favicon for instant visual recognition.
+- **Favicon Auto-Fetching**: Simply add a URL and Forget-Me-Knot ToolBox grabs the site's favicon for instant visual recognition.
 - **Categories & Notes**: Organize your tools into areas (e.g., AI, Dev, Productivity) and add quick notes like renewal dates or pricing.
 - **Quick Launch**: Open any service straight from your dashboard in one click.
 
@@ -32,11 +32,11 @@ Stop losing track of your subscriptions and web tools. FMK ToolBox is a lightwei
 
 ### Run on Startup
 
-ToolBox uses a Tauri plugin to automatically start itself when you log in. Once you package the app and drag it to `/Applications`, it will seamlessly launch on startup.
+Forget-Me-Knot ToolBox uses a Tauri plugin to automatically start itself when you log in. Once you package the app and drag it to `/Applications`, it will seamlessly launch on startup.
 
 Alternatively, you can manually register it from the terminal via:
 ```bash
-osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/ToolBox.app", hidden:false}'
+osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Forget-Me-Knot ToolBox.app", hidden:false}'
 ```
 
 ### Development

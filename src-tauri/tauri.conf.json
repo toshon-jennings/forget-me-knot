@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "ToolBox",
+  "productName": "Forget-Me-Knot ToolBox",
   "version": "0.1.0",
   "identifier": "com.toolbox.desktop",
   "build": {
@@ -11,7 +11,7 @@
   "app": {
     "windows": [
       {
-        "title": "ToolBox",
+        "title": "Forget-Me-Knot ToolBox",
         "width": 800,
         "height": 600,
         "resizable": false,
