@@ -31,12 +31,13 @@ pub fn run() {
             let menu = Menu::with_items(app, &[&quit_i])?;
 
             let img = image::load_from_memory(include_bytes!("../../assets/trayTemplate.png")).unwrap();
-            let rgba = img.into_rgba8();
+            let rgba = img.to_rgba8();
             let (width, height) = rgba.dimensions();
             let tray_icon = tauri::image::Image::new_owned(rgba.into_raw(), width, height);
 
             let _tray = TrayIconBuilder::new()
                 .icon(tray_icon)
+                .icon_as_template(true)
                 .menu(&menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(|_app: &tauri::AppHandle, event| match event.id().as_ref() {
