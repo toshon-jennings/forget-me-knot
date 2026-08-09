@@ -30,8 +30,13 @@ pub fn run() {
             let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&quit_i])?;
 
+            let img = image::load_from_memory(include_bytes!("../../assets/trayTemplate.png")).unwrap();
+            let rgba = img.into_rgba8();
+            let (width, height) = rgba.dimensions();
+            let tray_icon = tauri::image::Image::new_owned(rgba.into_raw(), width, height);
+
             let _tray = TrayIconBuilder::new()
-                .icon(app.default_window_icon().unwrap().clone())
+                .icon(tray_icon)
                 .menu(&menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(|_app: &tauri::AppHandle, event| match event.id().as_ref() {
