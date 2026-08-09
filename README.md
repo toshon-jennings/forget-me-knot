@@ -33,6 +33,16 @@ Stop losing track of your subscriptions and web tools. FMK ToolBox is a lightwei
    npm start
    ```
 
+### Run on Startup
+
+To launch ToolBox automatically when you log into your Mac, you need to package it as a standalone application. ToolBox is programmed to automatically register itself as a startup item when run as a packaged app.
+
+Build the `.app` bundle:
+```bash
+npx electron-builder --mac
+```
+Once the build completes, drag `release/mac-arm64/ToolBox.app` into your `Applications` folder and launch it once. It will start automatically on future logins.
+
 ### Development
 
 Run the app in development mode (which watches for changes):
