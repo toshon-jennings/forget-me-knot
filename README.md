@@ -1,6 +1,6 @@
 # <img src="assets/logo.png" width="38" height="38" valign="bottom" /> Forget-Me-Knot ToolBox
 
-Stop losing track of your subscriptions and web tools. FMK ToolBox is a lightweight, local-first menu bar app for macOS that gives you a single, visual dashboard of your entire manually added active toolkit.
+A visual dashboard of every tool you've signed up for — especially the ones you forgot you had. Forget-Me-Knot ToolBox is a lightweight, local-first menu bar app for macOS. Add the tools and services you use, and they stay one click away even when you haven't opened them in weeks.
 
 ## Features
 
