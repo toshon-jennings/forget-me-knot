@@ -57,6 +57,8 @@ open "/Applications/Forget-Me-Knot ToolBox.app"
 1. Clone the repository:
    ```bash
    git clone https://github.com/toshon-jennings/forget-me-knot.git toolbox
+   ```
+   ```bash
    cd toolbox
    ```
 2. Install dependencies:
@@ -77,7 +79,13 @@ open "/Applications/Forget-Me-Knot ToolBox.app"
 To pull the latest code and rebuild:
 ```bash
 git pull origin main
+```
+```bash
 npm install
+```
+```bash
 npm run build
+```
+```bash
 npm run tauri:build
 ```
