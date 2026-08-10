@@ -12,19 +12,27 @@ A visual dashboard of every tool you've signed up for — especially the ones yo
 
 ---
 
-## Installation (macOS Homebrew)
+## Installation & Updating (macOS Homebrew)
 
-Install or update **Forget-Me-Knot ToolBox** directly via Homebrew Cask:
+### Quick Update Command
 
-### Quick Install / Reinstall & Launch
+To update **Forget-Me-Knot ToolBox** to the latest version via Homebrew:
 
 ```bash
-brew reinstall --cask toshon-jennings/tap/fmk-toolbox
+brew update && brew upgrade --cask toshon-jennings/tap/fmk-toolbox
 xattr -cr "/Applications/Forget-Me-Knot ToolBox.app"
 open "/Applications/Forget-Me-Knot ToolBox.app"
 ```
 
-*(For first-time installs, `brew install --cask toshon-jennings/tap/fmk-toolbox` can also be used).*
+*(If Homebrew indicates the cask is already installed, force a reinstall with: `brew reinstall --cask toshon-jennings/tap/fmk-toolbox`)*.
+
+### First-Time Installation
+
+```bash
+brew install --cask toshon-jennings/tap/fmk-toolbox
+xattr -cr "/Applications/Forget-Me-Knot ToolBox.app"
+open "/Applications/Forget-Me-Knot ToolBox.app"
+```
 
 ---
 
@@ -36,7 +44,7 @@ open "/Applications/Forget-Me-Knot ToolBox.app"
 - npm
 - Rust & Cargo (`rustup`)
 
-### Local Setup
+### Local Setup & Development
 
 1. Clone the repository:
    ```bash
@@ -49,9 +57,19 @@ open "/Applications/Forget-Me-Knot ToolBox.app"
    ```
 3. Run in development mode:
    ```bash
-   npm run tauri dev
+   npm run dev
    ```
 4. Build release bundle:
    ```bash
-   npm run tauri build
+   npm run tauri:build
    ```
+
+### Updating Local Source
+
+To pull the latest code and rebuild:
+```bash
+git pull origin main
+npm install
+npm run build
+npm run tauri:build
+```
