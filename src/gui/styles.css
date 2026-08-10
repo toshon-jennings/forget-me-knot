@@ -238,7 +238,39 @@ main {
   font: 500 10px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
   cursor: pointer;
 }
-.edit-btn:hover, .edit-btn:focus-visible { background: var(--bg-sidebar); }
+.card-actions {
+  display: flex;
+  gap: 2px;
+  margin-top: 2px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.card-action-btn {
+  padding: 2px 5px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--accent);
+  font: 500 10px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.card-action-btn:hover, .card-action-btn:focus-visible { background: var(--bg-sidebar); }
+.card-action-btn.danger {
+  color: var(--danger);
+}
+.card-action-btn.danger:hover, .card-action-btn.danger:focus-visible {
+  background: rgba(255, 59, 48, 0.12);
+}
+
+button.danger {
+  color: var(--danger) !important;
+  border-color: rgba(255, 59, 48, 0.3) !important;
+}
+button.danger:hover, button.danger:focus-visible {
+  background: rgba(255, 59, 48, 0.12) !important;
+  border-color: var(--danger) !important;
+}
 
 .empty {
   display: flex;

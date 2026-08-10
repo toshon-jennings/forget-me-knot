@@ -152,8 +152,11 @@ function renderGrid() {
       });
     }
 
+    const actions = document.createElement("div");
+    actions.className = "card-actions";
+
     const edit = document.createElement("button");
-    edit.className = "edit-btn";
+    edit.className = "card-action-btn";
     edit.type = "button";
     edit.textContent = "Edit";
     edit.setAttribute("aria-label", `Edit ${s.name}`);
@@ -161,7 +164,49 @@ function renderGrid() {
       event.stopPropagation();
       openModal(s);
     });
-    card.appendChild(edit);
+    actions.appendChild(edit);
+
+    if (s.status === "archived") {
+      const restore = document.createElement("button");
+      restore.className = "card-action-btn";
+      restore.type = "button";
+      restore.textContent = "Restore";
+      restore.setAttribute("aria-label", `Restore ${s.name}`);
+      restore.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        data = await invoke("archive_service", { id: s.id });
+        render();
+      });
+      actions.appendChild(restore);
+
+      const del = document.createElement("button");
+      del.className = "card-action-btn danger";
+      del.type = "button";
+      del.textContent = "Delete";
+      del.setAttribute("aria-label", `Delete ${s.name}`);
+      del.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        if (confirm(`Permanently delete "${s.name}"?`)) {
+          data = await invoke("delete_service", { id: s.id });
+          render();
+        }
+      });
+      actions.appendChild(del);
+    } else {
+      const archive = document.createElement("button");
+      archive.className = "card-action-btn";
+      archive.type = "button";
+      archive.textContent = "Archive";
+      archive.setAttribute("aria-label", `Archive ${s.name}`);
+      archive.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        data = await invoke("archive_service", { id: s.id });
+        render();
+      });
+      actions.appendChild(archive);
+    }
+
+    card.appendChild(actions);
 
     card.addEventListener("click", async () => {
       if (s.status === "archived") return;
@@ -186,14 +231,29 @@ function populateCategories() {
 function openModal(service = null) {
   populateCategories();
   editingServiceId = service?.id ?? null;
-  document.getElementById("modal-title").textContent = service ? "Edit Service" : "Add Service";
-  document.getElementById("modal-save").textContent = service ? "Save Changes" : "Save";
+  const isEditing = !!service;
+  document.getElementById("modal-title").textContent = isEditing ? "Edit Service" : "Add Service";
+  document.getElementById("modal-save").textContent = isEditing ? "Save Changes" : "Save";
   document.getElementById("input-url").value = service?.url ?? "";
   document.getElementById("input-name").value = service?.name ?? "";
   document.getElementById("input-category").value = service?.category ?? "";
+  document.getElementById("input-status").value = service?.status ?? "active";
   document.getElementById("input-notes").value = service?.notes ?? "";
+
+  const archiveBtn = document.getElementById("modal-archive");
+  const deleteBtn = document.getElementById("modal-delete");
+
+  if (isEditing) {
+    archiveBtn.style.display = "inline-block";
+    archiveBtn.textContent = service.status === "archived" ? "Restore" : "Archive";
+    deleteBtn.style.display = "inline-block";
+  } else {
+    archiveBtn.style.display = "none";
+    deleteBtn.style.display = "none";
+  }
+
   document.getElementById("modal").style.display = "flex";
-  document.getElementById(service ? "input-notes" : "input-url").focus();
+  document.getElementById(isEditing ? "input-notes" : "input-url").focus();
 }
 
 function closeModal() {
@@ -210,8 +270,38 @@ document.querySelector(".sidebar").addEventListener("click", (e) => {
   }
 });
 
-document.getElementById("add-btn").addEventListener("click", openModal);
+document.getElementById("add-btn").addEventListener("click", () => openModal());
 document.getElementById("modal-cancel").addEventListener("click", closeModal);
+
+document.getElementById("modal-archive")?.addEventListener("click", async () => {
+  if (!editingServiceId) return;
+  const saveButton = document.getElementById("modal-save");
+  saveButton.disabled = true;
+  try {
+    data = await invoke("archive_service", { id: editingServiceId });
+    closeModal();
+    render();
+  } finally {
+    saveButton.disabled = false;
+  }
+});
+
+document.getElementById("modal-delete")?.addEventListener("click", async () => {
+  if (!editingServiceId) return;
+  const service = data.services.find((s) => s.id === editingServiceId);
+  const name = service?.name ?? "this service";
+  if (!confirm(`Permanently delete "${name}"?`)) return;
+
+  const saveButton = document.getElementById("modal-save");
+  saveButton.disabled = true;
+  try {
+    data = await invoke("delete_service", { id: editingServiceId });
+    closeModal();
+    render();
+  } finally {
+    saveButton.disabled = false;
+  }
+});
 
 document.getElementById("service-form").addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -219,6 +309,7 @@ document.getElementById("service-form").addEventListener("submit", async (event)
     url: document.getElementById("input-url").value.trim(),
     name: document.getElementById("input-name").value.trim(),
     category: document.getElementById("input-category").value,
+    status: document.getElementById("input-status").value,
     notes: document.getElementById("input-notes").value.trim(),
   };
   const saveButton = document.getElementById("modal-save");

@@ -1,6 +1,6 @@
 {
   "name": "toolbox",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Forget-Me-Knot ToolBox — your personal service dashboard",
   "type": "module",
   "scripts": {

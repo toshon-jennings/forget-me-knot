@@ -21,7 +21,9 @@ pub fn run() {
             backend::get_data,
             backend::add_service,
             backend::edit_service,
-            backend::open_service
+            backend::open_service,
+            backend::archive_service,
+            backend::delete_service
         ])
         .setup(|app| {
             #[cfg(target_os = "macos")]

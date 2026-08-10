@@ -128,6 +128,7 @@ pub fn add_service(payload: serde_json::Value) -> Result<ToolBox, String> {
     let category = payload["category"].as_str().and_then(|s| if s.is_empty() { None } else { Some(s.to_string()) });
     let notes = payload["notes"].as_str().and_then(|s| if s.is_empty() { None } else { Some(s.to_string()) });
     
+    let status = payload.get("status").and_then(|s| s.as_str()).unwrap_or("active").to_string();
     let now = chrono::Utc::now().to_rfc3339();
 
     let service = Service {
@@ -139,7 +140,7 @@ pub fn add_service(payload: serde_json::Value) -> Result<ToolBox, String> {
         notes,
         added_at: now.clone(),
         last_used_at: now,
-        status: "active".into(),
+        status,
     };
     
     tb.services.push(service);
@@ -165,8 +166,35 @@ pub fn edit_service(id: String, payload: serde_json::Value) -> Result<ToolBox, S
         if let Some(notes) = payload.get("notes") {
             service.notes = notes.as_str().and_then(|s| if s.is_empty() { None } else { Some(s.to_string()) });
         }
+        if let Some(status) = payload.get("status").and_then(|s| s.as_str()) {
+            if !status.is_empty() {
+                service.status = status.to_string();
+            }
+        }
     }
     
+    save_toolbox(&tb);
+    Ok(tb)
+}
+
+#[tauri::command]
+pub fn archive_service(id: String) -> Result<ToolBox, String> {
+    let mut tb = load_toolbox();
+    if let Some(service) = tb.services.iter_mut().find(|s| s.id == id) {
+        service.status = if service.status == "archived" {
+            "active".into()
+        } else {
+            "archived".into()
+        };
+    }
+    save_toolbox(&tb);
+    Ok(tb)
+}
+
+#[tauri::command]
+pub fn delete_service(id: String) -> Result<ToolBox, String> {
+    let mut tb = load_toolbox();
+    tb.services.retain(|s| s.id != id);
     save_toolbox(&tb);
     Ok(tb)
 }

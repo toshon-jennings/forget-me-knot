@@ -23,7 +23,7 @@
       <button class="cat-btn active" data-cat="">All <span class="count" id="count-all">0</span></button>
       <div id="category-list"></div>
       <button class="cat-btn" data-cat="archived">Archived <span class="count" id="count-archived">0</span></button>
-      <div style="margin-top: auto; padding: 12px 10px; font-size: 10px; color: var(--text-dim); opacity: 0.5; text-align: center;">Forget-Me-Knot ToolBox v0.1.8</div>
+      <div style="margin-top: auto; padding: 12px 10px; font-size: 10px; color: var(--text-dim); opacity: 0.5; text-align: center;">Forget-Me-Knot ToolBox v0.1.9</div>
     </aside>
 
     <main>
@@ -43,8 +43,16 @@
       <label>Category
         <select id="input-category"></select>
       </label>
+      <label id="label-status">Status
+        <select id="input-status">
+          <option value="active">Active</option>
+          <option value="archived">Archived</option>
+        </select>
+      </label>
       <label>Notes<textarea id="input-notes" placeholder="Optional"></textarea></label>
       <div class="modal-actions">
+        <button type="button" id="modal-delete" class="danger" style="display:none; margin-right: auto;">Delete</button>
+        <button type="button" id="modal-archive" style="display:none">Archive</button>
         <button type="button" id="modal-cancel">Cancel</button>
         <button type="submit" id="modal-save" class="primary">Save</button>
       </div>
