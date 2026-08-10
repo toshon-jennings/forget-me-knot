@@ -240,27 +240,41 @@ main {
 }
 .card-actions {
   display: flex;
-  gap: 2px;
+  gap: 4px;
   margin-top: 2px;
   justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
+  opacity: 0.65;
+  transition: opacity 0.15s ease;
+}
+.card:hover .card-actions {
+  opacity: 1;
 }
 .card-action-btn {
-  padding: 2px 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
   border: 0;
-  border-radius: 4px;
-  background: none;
-  color: var(--accent);
-  font: 500 10px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-dim);
   cursor: pointer;
-  white-space: nowrap;
+  transition: background 0.12s, color 0.12s, transform 0.1s;
 }
-.card-action-btn:hover, .card-action-btn:focus-visible { background: var(--bg-sidebar); }
+.card-action-btn:hover, .card-action-btn:focus-visible {
+  background: var(--bg-sidebar);
+  color: var(--accent);
+  transform: scale(1.1);
+}
 .card-action-btn.danger {
-  color: var(--danger);
+  color: var(--text-dim);
 }
 .card-action-btn.danger:hover, .card-action-btn.danger:focus-visible {
-  background: rgba(255, 59, 48, 0.12);
+  background: rgba(255, 59, 48, 0.15);
+  color: var(--danger);
 }
 
 button.danger {
