@@ -20,7 +20,11 @@ To update **Forget-Me-Knot ToolBox** to the latest version via Homebrew:
 
 ```bash
 brew update && brew upgrade --cask toshon-jennings/tap/fmk-toolbox
+```
+```bash
 xattr -cr "/Applications/Forget-Me-Knot ToolBox.app"
+```
+```bash
 open "/Applications/Forget-Me-Knot ToolBox.app"
 ```
 
@@ -30,7 +34,11 @@ open "/Applications/Forget-Me-Knot ToolBox.app"
 
 ```bash
 brew install --cask toshon-jennings/tap/fmk-toolbox
+```
+```bash
 xattr -cr "/Applications/Forget-Me-Knot ToolBox.app"
+```
+```bash
 open "/Applications/Forget-Me-Knot ToolBox.app"
 ```
 
