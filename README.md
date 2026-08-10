@@ -28,9 +28,9 @@ xattr -cr "/Applications/Forget-Me-Knot ToolBox.app"
 open "/Applications/Forget-Me-Knot ToolBox.app"
 ```
 
-*(If Homebrew indicates the cask is already installed, force a reinstall with: `brew reinstall --cask toshon-jennings/tap/fmk-toolbox`)*.
-
 ### First-Time Installation
+
+*(If Homebrew indicates the cask is already installed, force a reinstall with: `brew reinstall --cask toshon-jennings/tap/fmk-toolbox`)*.
 
 ```bash
 brew install --cask toshon-jennings/tap/fmk-toolbox
