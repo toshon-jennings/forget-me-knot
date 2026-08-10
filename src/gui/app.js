@@ -4,6 +4,15 @@ let data = { services: [], categories: [] };
 let activeCategory = "";
 let searchQuery = "";
 let editingServiceId = null;
+let sortOrder = localStorage.getItem("toolbox_sort_order") || "asc";
+
+function updateSortButtonUI() {
+  const btn = document.getElementById("sort-btn");
+  if (!btn) return;
+  btn.textContent = sortOrder === "asc" ? "A–Z ↑" : "Z–A ↓";
+  btn.setAttribute("aria-label", `Sort order: ${sortOrder === "asc" ? "A to Z" : "Z to A"}`);
+  btn.title = `Sort order: ${sortOrder === "asc" ? "A to Z (click for Z to A)" : "Z to A (click for A to Z)"}`;
+}
 
 async function refresh() {
   data = await invoke('get_data');
@@ -11,6 +20,7 @@ async function refresh() {
 }
 
 function render() {
+  updateSortButtonUI();
   renderSidebar();
   renderGrid();
 }
@@ -63,6 +73,14 @@ function renderGrid() {
         (s.notes ?? "").toLowerCase().includes(q)
     );
   }
+
+  services = [...services].sort((a, b) => {
+    const nameA = a.name.toLowerCase();
+    const nameB = b.name.toLowerCase();
+    return sortOrder === "desc"
+      ? nameB.localeCompare(nameA)
+      : nameA.localeCompare(nameB);
+  });
 
   if (services.length === 0) {
     empty.style.display = "flex";
@@ -219,6 +237,13 @@ document.getElementById("service-form").addEventListener("submit", async (event)
 
 document.getElementById("search").addEventListener("input", (e) => {
   searchQuery = e.target.value;
+  renderGrid();
+});
+
+document.getElementById("sort-btn")?.addEventListener("click", () => {
+  sortOrder = sortOrder === "asc" ? "desc" : "asc";
+  localStorage.setItem("toolbox_sort_order", sortOrder);
+  updateSortButtonUI();
   renderGrid();
 });
 

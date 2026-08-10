@@ -3,3 +3,6 @@ dist/
 release/
 .toolbox/
 *.log
+.DS_Store
+.claude/
+

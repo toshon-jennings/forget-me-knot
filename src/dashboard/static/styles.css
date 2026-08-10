@@ -95,6 +95,20 @@ button.primary {
 }
 button.primary:hover { opacity: 0.9; }
 
+button.sort-btn {
+  background: var(--bg-sidebar);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  user-select: none;
+}
+button.sort-btn:hover { border-color: var(--accent); }
+
 .grid {
   flex: 1;
   padding: 16px;

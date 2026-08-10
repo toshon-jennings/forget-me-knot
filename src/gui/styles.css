@@ -87,6 +87,24 @@ button.primary {
 }
 button.primary:hover { opacity: 0.85; }
 
+button.sort-btn {
+  background: var(--bg-sidebar);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  user-select: none;
+  transition: background 0.12s, border-color 0.12s;
+}
+button.sort-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+}
+
 .sidebar {
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border);
@@ -121,7 +139,7 @@ button.primary:hover { opacity: 0.85; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.75);
+  transform: scale(1.15);
 }
 
 .cat-btn {

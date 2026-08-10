@@ -1,6 +1,14 @@
 let toolbox = { services: [], categories: [] };
 let activeCategory = "";
 let searchQuery = "";
+let sortOrder = localStorage.getItem("toolbox_sort_order") || "asc";
+
+function updateSortButtonUI() {
+  const btn = document.getElementById("sort-btn");
+  if (!btn) return;
+  btn.textContent = sortOrder === "asc" ? "A–Z ↑" : "Z–A ↓";
+  btn.title = `Sort order: ${sortOrder === "asc" ? "A to Z (click for Z to A)" : "Z to A (click for A to Z)"}`;
+}
 
 async function fetchData() {
   const res = await fetch("/api/data");
@@ -9,6 +17,7 @@ async function fetchData() {
 }
 
 function render() {
+  updateSortButtonUI();
   renderCategories();
   renderGrid();
 }
@@ -74,6 +83,14 @@ function renderGrid() {
         (s.notes ?? "").toLowerCase().includes(q)
     );
   }
+
+  services = [...services].sort((a, b) => {
+    const nameA = a.name.toLowerCase();
+    const nameB = b.name.toLowerCase();
+    return sortOrder === "desc"
+      ? nameB.localeCompare(nameA)
+      : nameA.localeCompare(nameB);
+  });
 
   if (services.length === 0) {
     empty.style.display = "flex";
@@ -143,6 +160,13 @@ document.getElementById("add-btn").addEventListener("click", openModal);
 document.getElementById("modal-cancel").addEventListener("click", closeModal);
 document.getElementById("search").addEventListener("input", (e) => {
   searchQuery = e.target.value;
+  renderGrid();
+});
+
+document.getElementById("sort-btn")?.addEventListener("click", () => {
+  sortOrder = sortOrder === "asc" ? "desc" : "asc";
+  localStorage.setItem("toolbox_sort_order", sortOrder);
+  updateSortButtonUI();
   renderGrid();
 });
 
