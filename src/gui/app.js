@@ -97,6 +97,41 @@ function renderGrid() {
       notes.className = "notes-preview";
       notes.textContent = s.notes;
       card.appendChild(notes);
+
+      card.addEventListener("mouseenter", () => {
+        const main = document.querySelector("main");
+        if (!main) return;
+        const mainRect = main.getBoundingClientRect();
+
+        // Reset default centered positioning to measure natural size
+        notes.style.left = "50%";
+        notes.style.right = "auto";
+        notes.style.transform = "translateX(-50%)";
+        notes.style.top = "100%";
+        notes.style.bottom = "auto";
+
+        // Temporarily display block to measure rect
+        notes.style.display = "block";
+        const notesRect = notes.getBoundingClientRect();
+        notes.style.display = "";
+
+        // Horizontal boundary check
+        if (notesRect.right > mainRect.right - 12) {
+          notes.style.left = "auto";
+          notes.style.right = "0";
+          notes.style.transform = "none";
+        } else if (notesRect.left < mainRect.left + 12) {
+          notes.style.left = "0";
+          notes.style.right = "auto";
+          notes.style.transform = "none";
+        }
+
+        // Vertical boundary check (flip to top if near bottom)
+        if (notesRect.bottom > mainRect.bottom - 12) {
+          notes.style.top = "auto";
+          notes.style.bottom = "100%";
+        }
+      });
     }
 
     const edit = document.createElement("button");
