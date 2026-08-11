@@ -311,7 +311,8 @@ button.danger:hover, button.danger:focus-visible {
   background: var(--bg);
   border-radius: 12px;
   padding: 20px;
-  width: 280px;
+  width: 380px;
+  max-width: calc(100vw - 32px);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -343,14 +344,15 @@ button.danger:hover, button.danger:focus-visible {
 .modal-content input:focus, .modal-content select:focus, .modal-content textarea:focus {
   border-color: var(--accent);
 }
-.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px; }
+.modal-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
 .modal-actions button {
-  padding: 7px 14px;
+  padding: 7px 12px;
   border-radius: 6px;
   border: 1px solid var(--border);
   background: none;
   color: var(--text);
   cursor: pointer;
   font-size: 12px;
+  box-sizing: border-box;
 }
 .modal-actions button:disabled { opacity: 0.5; cursor: default; }

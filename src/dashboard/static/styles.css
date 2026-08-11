@@ -165,7 +165,8 @@ button.sort-btn:hover { border-color: var(--accent); }
   background: var(--bg-card);
   border-radius: 12px;
   padding: 24px;
-  width: 360px;
+  width: 380px;
+  max-width: calc(100vw - 32px);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -186,7 +187,7 @@ button.sort-btn:hover { border-color: var(--accent); }
   color: var(--text);
   font-size: 14px;
 }
-.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+.modal-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
 .modal-actions button {
   padding: 8px 14px;
   border-radius: 6px;
@@ -195,4 +196,5 @@ button.sort-btn:hover { border-color: var(--accent); }
   color: var(--text);
   cursor: pointer;
   font-size: 13px;
+  box-sizing: border-box;
 }
