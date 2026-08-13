@@ -107,11 +107,18 @@ function renderGrid() {
     const letterSvg = `data:image/svg+xml,${encodeURIComponent(
       `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#0055d4"/></linearGradient></defs><rect width="32" height="32" rx="7" fill="url(#g)"/><text x="16" y="22" text-anchor="middle" fill="#fff" font-size="15" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,sans-serif">${initial}</text></svg>`
     )}`;
-    img.src = `https://www.google.com/s2/favicons?domain=${new URL(s.url).hostname}&sz=64`;
+    // Start on the letter avatar and only replace it once the backend has
+    // proven a real icon exists. Pointing an <img> at a favicon service cannot
+    // work: Google's S2 answers unknown domains with HTTP 404 and a generic
+    // globe, and the browser renders that body, so `onerror` never fires and
+    // the globe sticks. Resolution and validation happen in `get_favicon`.
+    img.src = letterSvg;
     img.alt = s.name;
-    img.onerror = () => {
-      img.src = letterSvg;
-    };
+    invoke("get_favicon", { url: s.url })
+      .then((icon) => {
+        if (icon) img.src = icon;
+      })
+      .catch(() => {});
 
     const name = document.createElement("div");
     name.className = "name";
