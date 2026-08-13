@@ -103,12 +103,20 @@ function renderGrid() {
     card.className = `card${s.status === "archived" ? " archived" : ""}`;
 
     const img = document.createElement("img");
+    const initial = (s.name[0] ?? "?").toUpperCase();
+    const letterSvg = `data:image/svg+xml,${encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#0055d4"/></linearGradient></defs><rect width="32" height="32" rx="7" fill="url(#g)"/><text x="16" y="22" text-anchor="middle" fill="#fff" font-size="15" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,sans-serif">${initial}</text></svg>`
+    )}`;
+    let googleAttempted = false;
     img.src = `https://www.google.com/s2/favicons?domain=${new URL(s.url).hostname}&sz=64`;
     img.alt = s.name;
     img.onerror = () => {
-      img.src = `data:image/svg+xml,${encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#007aff"/><text x="16" y="22" text-anchor="middle" fill="#fff" font-size="14" font-family="sans-serif">${s.name[0]?.toUpperCase() ?? "?"}</text></svg>`
-      )}`;
+      if (!googleAttempted && s.favicon) {
+        googleAttempted = true;
+        img.src = s.favicon;
+      } else {
+        img.src = letterSvg;
+      }
     };
 
     const name = document.createElement("div");
