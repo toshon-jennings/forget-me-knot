@@ -102,7 +102,18 @@ hdiutil detach "$MNT" -quiet
 rm -f "$DMG"
 hdiutil convert "$WORK/rw.dmg" -format UDZO -imagekey zlib-level=9 -o "$DMG" -quiet
 
-# --- 3. Verify what actually ships -------------------------------------------
+# --- 3. Rewrite the background alias against the final volume -----------------
+#
+# Must run AFTER the rename. The .DS_Store background reference is an alias that
+# embeds volume identifiers, so renaming the volume invalidates whatever the
+# bundler wrote. Finder rewriting it here fixes that and the Apple Silicon APFS
+# alias bug in the same pass. Both fail silently — a broken alias renders as a
+# plain grey window with a .DS_Store that inspects as perfect.
+
+echo "==> Rewriting background alias via Finder"
+"$ROOT/scripts/fix-dmg-background.sh" "$DMG" "$PRODUCT.app" 540 380 140 225 400 225
+
+# --- 4. Verify what actually ships -------------------------------------------
 
 echo "==> Verifying shipped disk image"
 hdiutil attach "$DMG" -nobrowse -readonly -mountpoint "$MNT" -quiet
@@ -120,6 +131,22 @@ if [ "$SHIPPED_VOL" != "$VOLNAME" ]; then
   echo "FAIL: volume is \"$SHIPPED_VOL\", expected \"$VOLNAME\"." >&2
   exit 1
 fi
+
+if [ ! -f "$MNT/.background/dmg-background.png" ]; then
+  echo "FAIL: background image is missing from the shipped image." >&2
+  exit 1
+fi
+BG_DIM="$(sips -g pixelWidth -g pixelHeight "$MNT/.background/dmg-background.png" \
+  2>/dev/null | awk '/pixelWidth|pixelHeight/{printf "%sx", $2}')"
+if [ "$BG_DIM" != "540x380x" ]; then
+  echo "FAIL: background is ${BG_DIM%x}, expected 540x380 — Finder will pad the window." >&2
+  exit 1
+fi
+if ! file "$MNT/.background/dmg-background.png" | grep -q "PNG image"; then
+  echo "FAIL: background is not really a PNG." >&2
+  exit 1
+fi
+echo "    background present, 540x380, real PNG"
 
 # Apple's own pre-distribution checker. The two remaining findings on an
 # unnotarized build are expected; a Codesign Error is the regression to catch.

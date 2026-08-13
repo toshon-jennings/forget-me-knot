@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Forget-Me-Knot ToolBox",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "identifier": "com.toolbox.desktop",
   "build": {
     "frontendDist": "../dist/gui",
@@ -32,7 +32,13 @@
     "targets": "all",
     "macOS": {
       "signingIdentity": "-",
-      "hardenedRuntime": false
+      "hardenedRuntime": false,
+      "dmg": {
+        "background": "icons/dmg-background.png",
+        "windowSize": { "width": 540, "height": 380 },
+        "appPosition": { "x": 140, "y": 225 },
+        "applicationFolderPosition": { "x": 400, "y": 225 }
+      }
     },
     "icon": [
       "icons/32x32.png",

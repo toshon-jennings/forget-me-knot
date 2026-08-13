@@ -6,3 +6,5 @@ release/
 .DS_Store
 .claude/
 
+scripts/dmg-background.svg
+dmg-mockup.png
