@@ -359,4 +359,88 @@ document.getElementById("sort-btn")?.addEventListener("click", () => {
   renderGrid();
 });
 
+// ── Categories modal ─────────────────────────────────────────────────────────
+
+function renderCategoriesModal() {
+  const list = document.getElementById("categories-list");
+  list.innerHTML = "";
+
+  for (const cat of data.categories) {
+    const count = data.services.filter(
+      (s) => s.category === cat.id && s.status === "active"
+    ).length;
+
+    const row = document.createElement("div");
+    row.className = "category-row";
+
+    const labelEl = document.createElement("span");
+    labelEl.className = "category-row-label";
+    labelEl.textContent = cat.label;
+
+    const slugEl = document.createElement("span");
+    slugEl.className = "category-row-slug";
+    slugEl.textContent = count > 0 ? `${count} service${count !== 1 ? "s" : ""}` : "unused";
+
+    const delBtn = document.createElement("button");
+    delBtn.className = "category-delete-btn";
+    delBtn.type = "button";
+    delBtn.innerHTML = "×";
+    delBtn.title = `Delete "${cat.label}"`;
+    delBtn.setAttribute("aria-label", `Delete category ${cat.label}`);
+    delBtn.addEventListener("click", async () => {
+      const msg =
+        count > 0
+          ? `Delete "${cat.label}"? The ${count} service${count !== 1 ? "s" : ""} in this category will become uncategorized.`
+          : `Delete category "${cat.label}"?`;
+      if (!confirm(msg)) return;
+      data = await invoke("delete_category", { id: cat.id });
+      renderCategoriesModal();
+      render();
+    });
+
+    row.appendChild(labelEl);
+    row.appendChild(slugEl);
+    row.appendChild(delBtn);
+    list.appendChild(row);
+  }
+}
+
+function openCategoriesModal() {
+  renderCategoriesModal();
+  document.getElementById("new-category-label").value = "";
+  document.getElementById("categories-modal").style.display = "flex";
+  document.getElementById("new-category-label").focus();
+}
+
+function closeCategoriesModal() {
+  document.getElementById("categories-modal").style.display = "none";
+}
+
+document.getElementById("manage-categories-btn").addEventListener("click", openCategoriesModal);
+document.getElementById("categories-modal-close").addEventListener("click", closeCategoriesModal);
+
+document.getElementById("categories-modal").addEventListener("click", (e) => {
+  if (e.target === document.getElementById("categories-modal")) closeCategoriesModal();
+});
+
+document.getElementById("new-category-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const input = document.getElementById("new-category-label");
+  const label = input.value.trim();
+  if (!label) return;
+  const addBtn = document.getElementById("new-category-add");
+  addBtn.disabled = true;
+  try {
+    data = await invoke("add_category", { label });
+    input.value = "";
+    renderCategoriesModal();
+    render();
+    input.focus();
+  } catch (err) {
+    alert(err);
+  } finally {
+    addBtn.disabled = false;
+  }
+});
+
 refresh();

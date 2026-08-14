@@ -24,7 +24,9 @@ pub fn run() {
             backend::open_service,
             backend::archive_service,
             backend::delete_service,
-            backend::get_favicon
+            backend::get_favicon,
+            backend::add_category,
+            backend::delete_category
         ])
         .setup(|app| {
             #[cfg(target_os = "macos")]

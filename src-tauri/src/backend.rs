@@ -407,3 +407,48 @@ pub fn open_service(app: AppHandle, id: String) -> Result<(), String> {
     }
     Ok(())
 }
+
+#[tauri::command]
+pub fn add_category(label: String) -> Result<ToolBox, String> {
+    let mut tb = load_toolbox();
+    let trimmed = label.trim().to_string();
+    if trimmed.is_empty() {
+        return Err("Label cannot be empty".into());
+    }
+    // Auto-generate a slug id from the label
+    let id: String = trimmed
+        .to_lowercase()
+        .chars()
+        .map(|c| if c.is_alphanumeric() { c } else { '-' })
+        .collect::<String>()
+        .trim_matches('-')
+        .to_string();
+    let id = if id.is_empty() {
+        uuid::Uuid::new_v4().to_string()
+    } else {
+        id
+    };
+    // Ensure id uniqueness by appending a suffix if needed
+    let id = if tb.categories.iter().any(|c| c.id == id) {
+        format!("{}-{}", id, &uuid::Uuid::new_v4().to_string()[..4])
+    } else {
+        id
+    };
+    tb.categories.push(Category { id, label: trimmed });
+    save_toolbox(&tb);
+    Ok(tb)
+}
+
+#[tauri::command]
+pub fn delete_category(id: String) -> Result<ToolBox, String> {
+    let mut tb = load_toolbox();
+    tb.categories.retain(|c| c.id != id);
+    // Clear the category field on services that used this category
+    for service in tb.services.iter_mut() {
+        if service.category.as_deref() == Some(&id) {
+            service.category = None;
+        }
+    }
+    save_toolbox(&tb);
+    Ok(tb)
+}
