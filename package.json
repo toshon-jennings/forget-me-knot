@@ -1,6 +1,6 @@
 {
   "name": "toolbox",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Forget-Me-Knot ToolBox — your personal service dashboard",
   "type": "module",
   "scripts": {
@@ -16,13 +16,13 @@
     "esbuild": "^0.28.0",
     "typescript": "^5.7.0"
   },
-
   "allowScripts": {
     "electron": true,
     "esbuild": true
   },
   "dependencies": {
     "@tauri-apps/api": "^2.11.1",
-    "@tauri-apps/plugin-autostart": "^2.5.1"
+    "@tauri-apps/plugin-autostart": "^2.5.1",
+    "@tauri-apps/plugin-dialog": "^2.7.2"
   }
 }

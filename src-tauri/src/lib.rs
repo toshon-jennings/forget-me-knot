@@ -13,6 +13,7 @@ use tauri_plugin_positioner::{WindowExt, Position};
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_positioner::init())
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_autostart::init(
             MacosLauncher::LaunchAgent,
             Some(vec![]),
@@ -26,7 +27,9 @@ pub fn run() {
             backend::delete_service,
             backend::get_favicon,
             backend::add_category,
-            backend::delete_category
+            backend::delete_category,
+            backend::export_data,
+            backend::import_data
         ])
         .setup(|app| {
             #[cfg(target_os = "macos")]

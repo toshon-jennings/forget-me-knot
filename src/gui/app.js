@@ -1,4 +1,5 @@
 import { invoke } from '@tauri-apps/api/core';
+import { open, save } from '@tauri-apps/plugin-dialog';
 
 const EDIT_ICON_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
 
@@ -442,5 +443,50 @@ document.getElementById("new-category-form").addEventListener("submit", async (e
     addBtn.disabled = false;
   }
 });
+
+// ── Export / Import ──────────────────────────────────────────────────────────
+
+const BACKUP_FILTER = [{ name: "ToolBox backup", extensions: ["json"] }];
+
+async function exportData() {
+  const date = new Date().toISOString().slice(0, 10);
+  const path = await save({
+    title: "Export ToolBox data",
+    defaultPath: `toolbox-backup-${date}.json`,
+    filters: BACKUP_FILTER,
+  });
+  if (!path) return;
+  try {
+    await invoke("export_data", { path });
+    alert(`Exported ${data.services.length} service${data.services.length === 1 ? "" : "s"} to:\n${path}`);
+  } catch (err) {
+    alert(err);
+  }
+}
+
+async function importData() {
+  const path = await open({
+    title: "Import ToolBox data",
+    multiple: false,
+    directory: false,
+    filters: BACKUP_FILTER,
+  });
+  if (!path) return;
+  if (!confirm("Importing will replace all current services and categories with the file's contents. Continue?")) return;
+  const btn = document.getElementById("import-btn");
+  btn.disabled = true;
+  try {
+    data = await invoke("import_data", { path });
+    activeCategory = "";
+    render();
+  } catch (err) {
+    alert(err);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+document.getElementById("export-btn").addEventListener("click", exportData);
+document.getElementById("import-btn").addEventListener("click", importData);
 
 refresh();

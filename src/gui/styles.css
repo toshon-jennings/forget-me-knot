@@ -385,6 +385,16 @@ button.danger:hover, button.danger:focus-visible {
   border-color: var(--accent);
 }
 
+.data-btns {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+.data-btns .manage-cat-btn {
+  flex: 1;
+  padding: 5px 0;
+}
+
 .version-label {
   font-size: 10px;
   color: var(--text-dim);

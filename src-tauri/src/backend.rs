@@ -452,3 +452,29 @@ pub fn delete_category(id: String) -> Result<ToolBox, String> {
     save_toolbox(&tb);
     Ok(tb)
 }
+
+#[tauri::command]
+pub fn export_data(path: String) -> Result<(), String> {
+    let tb = load_toolbox();
+    let json = serde_json::to_string_pretty(&tb).map_err(|e| e.to_string())?;
+    fs::write(&path, json).map_err(|e| format!("Could not write export file: {e}"))?;
+    Ok(())
+}
+
+#[tauri::command]
+pub fn import_data(path: String) -> Result<ToolBox, String> {
+    let raw = fs::read_to_string(&path).map_err(|e| format!("Could not read import file: {e}"))?;
+    let value: serde_json::Value =
+        serde_json::from_str(&raw).map_err(|e| format!("Not valid JSON: {e}"))?;
+    if value.get("services").and_then(|v| v.as_array()).is_none() {
+        return Err("Import file has no “services” list".into());
+    }
+    if value.get("categories").and_then(|v| v.as_array()).is_none() {
+        return Err("Import file has no “categories” list".into());
+    }
+    let tb: ToolBox = serde_json::from_value(value)
+        .map_err(|e| format!("Not a valid ToolBox backup: {e}"))?;
+    save_toolbox(&tb);
+    // reload so the default categories migration runs on the imported data
+    Ok(load_toolbox())
+}

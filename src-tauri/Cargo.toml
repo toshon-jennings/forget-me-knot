@@ -1,6 +1,6 @@
 [package]
 name = "app"
-version = "0.1.14"
+version = "0.1.15"
 
 description = "A Tauri App"
 authors = ["you"]
@@ -32,3 +32,4 @@ uuid = { version = "1.20.0", features = ["v4"] }
 tauri-plugin-positioner = { version = "2.3.3", features = ["tray-icon"] }
 image = "0.24"
 base64 = "0.23.1"
+tauri-plugin-dialog = "2"
