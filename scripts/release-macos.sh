@@ -42,9 +42,12 @@ CONF="$ROOT/src-tauri/tauri.conf.json"
 
 VERSION="$(jq -r '.version' "$CONF")"
 PRODUCT="$(jq -r '.productName' "$CONF")"
-ARCH="$(uname -m)"
 
-BUNDLE="$ROOT/src-tauri/target/release/bundle"
+# Build universal by default for release
+TARGET="universal-apple-darwin"
+ARCH="universal"
+
+BUNDLE="$ROOT/src-tauri/target/$TARGET/release/bundle"
 APP="$BUNDLE/macos/$PRODUCT.app"
 VOLNAME="$PRODUCT $VERSION-$ARCH"
 
@@ -58,7 +61,7 @@ if [ "$PKG_VERSION" != "$VERSION" ] || [ "$CARGO_VERSION" != "$VERSION" ]; then
 fi
 
 echo "==> Building $PRODUCT $VERSION ($ARCH)"
-npx tauri build --bundles app,dmg
+npx tauri build --bundles app,dmg --target "$TARGET"
 
 # --- 1. Verify the .app bundle is properly sealed ----------------------------
 
