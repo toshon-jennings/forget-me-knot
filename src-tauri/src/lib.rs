@@ -38,14 +38,18 @@ pub fn run() {
             let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&quit_i])?;
 
-            let img = image::load_from_memory(include_bytes!("../../assets/trayBlue.png")).unwrap();
+            // Pure-black template image: macOS recolors it automatically for
+            // light/dark menu bars, so it stays high-contrast in e-ink mode
+            // (grayscale filter maps it to solid black/white instead of a
+            // muddy mid-gray like the old blue bitmap).
+            let img = image::load_from_memory(include_bytes!("../../assets/trayTemplate.png")).unwrap();
             let rgba = img.to_rgba8();
             let (width, height) = rgba.dimensions();
             let tray_icon = tauri::image::Image::new_owned(rgba.into_raw(), width, height);
 
             let _tray = TrayIconBuilder::new()
                 .icon(tray_icon)
-                .icon_as_template(false)
+                .icon_as_template(true)
                 .menu(&menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(|_app: &tauri::AppHandle, event| match event.id().as_ref() {
